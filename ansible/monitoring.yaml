@@ -2,4 +2,5 @@
 - hosts: monitoring
   become: true
   roles:
-    - nginx
+    # - nginx
+    - docker

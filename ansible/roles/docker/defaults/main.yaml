@@ -1,0 +1,5 @@
+---
+docker_log_size: 300M
+docker_log_files: 3
+docker_bip: 172.17.0.1/16
+docker_net: 172.18.0.0/24

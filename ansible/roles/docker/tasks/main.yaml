@@ -1,0 +1,43 @@
+---
+- name: Ensure required packages are installed
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - jq
+    state: present
+    update_cache: yes
+
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker Repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+    state: present
+
+- name: Install Docker-ce
+  package:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose-plugin
+    state: latest
+
+- name: Copy Docker daemon configuration file to server
+  template:
+    src: "daemon.j2"
+    dest: /etc/docker/daemon.json
+    force: yes
+  notify: Restart Docker
+
+- name: Patch systemd file docker.socket to stop with docker.service
+  lineinfile:
+    path: /lib/systemd/system/docker.socket
+    insertafter: "^Description=*"
+    line: "PartOf=docker.service"
+  notify: Reload Docker socket

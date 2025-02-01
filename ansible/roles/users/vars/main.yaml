@@ -1,0 +1,19 @@
+users:
+  - name: "test-1"
+    ssh_key: |
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCzUXlDKjVBkd5g9HZmlElOJHaAhRSOACSe3N16JCMcj7w96opfwdrmq+wri9tUkyPQJeNknO83KtZyIeOwyTNcDAuDS27UWPHCv1qLCr2xk7iUXe+8hW7DisuVJ2/GOkdqxwjto3a8Npvc3gHJmrvKDLqiRaal6pxkVTwA/peMjLIKrEc6NATY4+Uu/EGNDbo9dToqmQyvD/iArz5+1kwG0VD4x1PXzBmTsv7PC6QDEciMN/TcXAKaN3oqtOm0wheYYInFy36yQEP4lgRwTUseMr1hSzpdpi3eN2BujB1zzDxWvN+NN3GdWVvdabbb2ORkC2F/XgTUu9UHffKDJreF7rJ66nKORcgMxuBBv9fOj1yXM1topsBFNfI+R+YDkSJozgfZCZHQUbzXiuzDyLtfA3fGcT4k1pja19OpodVrimoxsHAzoeQo2hyBDtPdOrXUEsZNeY4Mh2hkGYwrdXarsuhW2oUsrQrr2qByzlvQITf9PCdpACxcxpJEVNctUBk= stanislav@stanislav-systemproductname
+    groups: "sudo"
+    state: present
+
+  - name: "test-2"
+    ssh_key: |
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCzUXlDKjVBkd5g9HZmlElOJHaAhRSOACSe3N16JCMcj7w96opfwdrmq+wri9tUkyPQJeNknO83KtZyIeOwyTNcDAuDS27UWPHCv1qLCr2xk7iUXe+8hW7DisuVJ2/GOkdqxwjto3a8Npvc3gHJmrvKDLqiRaal6pxkVTwA/peMjLIKrEc6NATY4+Uu/EGNDbo9dToqmQyvD/iArz5+1kwG0VD4x1PXzBmTsv7PC6QDEciMN/TcXAKaN3oqtOm0wheYYInFy36yQEP4lgRwTUseMr1hSzpdpi3eN2BujB1zzDxWvN+NN3GdWVvdabbb2ORkC2F/XgTUu9UHffKDJreF7rJ66nKORcgMxuBBv9fOj1yXM1topsBFNfI+R+YDkSJozgfZCZHQUbzXiuzDyLtfA3fGcT4k1pja19OpodVrimoxsHAzoeQo2hyBDtPdOrXUEsZNeY4Mh2hkGYwrdXarsuhW2oUsrQrr2qByzlvQITf9PCdpACxcxpJEVNctUBk= stanislav@stanislav-systemproductname
+    groups: "sudo"
+    shell: "/bin/sh"
+    state: absent
+
+#  - name: "admin" - required
+#    ssh_key: "ssh-rsa AS213zaAf..." - optional
+#    groups: "[sudo/users]" - optional
+#    shell: "/bin/bash" - optionalstate
+#    state: "[present/absent]" - optional

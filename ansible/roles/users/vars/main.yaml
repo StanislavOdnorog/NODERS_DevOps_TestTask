@@ -1,12 +1,13 @@
 users:
   - name: "docker"
     groups: "sudo"
-    create_home: no
+    create_home: false
 
   - name: "nginx"
-    create_home: no
-#  - name: "admin" - required
-#    ssh_key: "ssh-rsa AS213zaAf..." - optional
-#    groups: "[sudo/users]" - optional
-#    shell: "/bin/bash" - optionalstate
-#    state: "[present/absent]" - optional
+    create_home: false
+#  - name: "admin"
+#    ssh_key: "ssh-rsa AS213zaAf..."
+#    groups: "[sudo/users]"
+#    shell: "/bin/bash"
+#    state: "[present/absent]"
+#    create_home: "[true/false]"

@@ -1,0 +1,63 @@
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Ensure necessary directories exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ nginx_conf_path }}"
+    - "{{ nginx_sites_available }}"
+    - "{{ nginx_sites_enabled }}"
+
+- name: Deploy main Nginx configuration
+  template:
+    src: nginx.conf.j2
+    dest: "{{ nginx_conf_file }}"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload Nginx
+
+- name: Ensure conf.d directory exists
+  file:
+    path: "{{ nginx_conf_path }}"
+    state: directory
+    mode: "0755"
+
+- name: Deploy security configuration
+  template:
+    src: conf.d/security.conf.j2
+    dest: "{{ nginx_security_conf }}"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload Nginx
+
+- name: Deploy common configuration
+  template:
+    src: conf.d/common.conf.j2
+    dest: "{{ nginx_common_conf }}"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload Nginx
+
+- name: Deploy reverse proxy configuration to sites-available
+  template:
+    src: sites-available/reverse_proxy.conf.j2
+    dest: "{{ nginx_sites_available }}/reverse_proxy"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload Nginx
+
+- name: Enable reverse proxy configuration
+  file:
+    src: "{{ nginx_sites_available }}/reverse_proxy"
+    dest: "{{ nginx_sites_enabled }}/default"
+    state: link
+  notify: Reload Nginx

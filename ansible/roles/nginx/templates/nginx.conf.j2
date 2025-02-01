@@ -1,0 +1,27 @@
+user {{ nginx_user }};
+worker_processes {{ nginx_worker_processes }};
+
+error_log {{ nginx_error_log }};
+
+events {
+    worker_connections {{ nginx_worker_connections }};
+    multi_accept {{ nginx_multi_accept }};
+}
+
+http {
+    include {{ nginx_mime_file_path }};
+    default_type application/octet-stream;
+
+    log_format main {{ nginx_log_format }};
+    error_log {{ nginx_error_log }};
+    access_log {{ nginx_access_log }};
+
+    sendfile {{ nginx_sendfile }};
+    tcp_nopush {{ nginx_tcp_nopush }};
+    tcp_nodelay {{ nginx_tcp_nodelay }};
+
+    include /etc/nginx/conf.d/*.conf;
+    include {{ nginx_sites_enabled }}/*;
+}
+
+

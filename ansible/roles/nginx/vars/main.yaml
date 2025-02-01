@@ -1,0 +1,38 @@
+nginx_upstreams:
+  - name: "grafana_backend"
+    servers:
+      - "127.0.0.1:3000"
+
+  # - name: "prometheus_backend"
+  #   servers:
+  #     - "127.0.0.1:9090"
+  #   keepalive: 16
+
+  # - name: "load_balanced_backend"
+  #   servers:
+  #     - "192.168.1.10"
+  #     - "192.168.1.11 weight=2"
+  #   strategy: "[least_conn/ip_hash/round_robin]"
+  #   keepalive: "[number]"
+
+nginx_servers:
+  - port: 80
+    access_log: "/var/log/nginx/grafana_access.log"
+    error_log: "/var/log/nginx/grafana_error.log"
+    locations:
+      - path: "/"
+        upstream: "grafana_backend"
+        extra_config: |
+          proxy_cache_bypass $http_upgrade;
+
+  # - port: 8080
+  #   server_name: "prometheus.example.com"
+  #   ssl: true
+  #   ssl_cert: "/etc/nginx/ssl/prometheus.crt"
+  #   ssl_key: "/etc/nginx/ssl/prometheus.key"
+  #   locations:
+  #     - path: "/"
+  #       upstream: "prometheus_backend"
+  #       extra_config: |
+  #         proxy_read_timeout 60s;
+  #         proxy_connect_timeout 5s;

@@ -1,0 +1,51 @@
+{% for upstream in nginx_upstreams %}
+upstream {{ upstream.name }} {
+    {% for server in upstream.servers %}
+    server {{ server }};
+    {% endfor %}
+    {% if upstream.keepalive is defined %}
+    keepalive {{ upstream.keepalive }};
+    {% endif %}
+}
+{% endfor %}
+
+{% for server in nginx_servers %}
+server {
+    listen {{ server.port | default(80) }};
+    server_name {{ server.server_name | default('_') }};
+
+    {% if server.ssl is defined and server.ssl %}
+    ssl_certificate {{ server.ssl_cert }};
+    ssl_certificate_key {{ server.ssl_key }};
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    {% endif %}
+
+    {% if server.access_log is defined %}
+    access_log {{ server.access_log }};
+    {% else %}
+    access_log /var/log/nginx/{{ server.server_name | default('default') }}_access.log;
+    {% endif %}
+
+    {% if server.error_log is defined %}
+    error_log {{ server.error_log }};
+    {% else %}
+    error_log /var/log/nginx/{{ server.server_name | default('default') }}_error.log;
+    {% endif %}
+
+    {% for location in server.locations %}
+    location {{ location.path }} {
+        proxy_pass http://{{ location.upstream }};
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        {% if location.extra_config is defined %}
+        {{ location.extra_config }}
+        {% endif %}
+    }
+    {% endfor %}
+}
+{% endfor %}
+

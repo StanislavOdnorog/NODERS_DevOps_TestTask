@@ -1,0 +1,9 @@
+security_firewall_enabled: true
+security_allowed_ports: [22, 80]
+security_ssh_port: 22
+security_fail2ban_enabled: true
+security_auto_updates_enabled: true
+security_disable_root_ssh: true
+security_disable_password_auth: true
+
+

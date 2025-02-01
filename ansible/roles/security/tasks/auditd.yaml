@@ -1,0 +1,13 @@
+---
+- name: Install auditd
+  apt:
+    name: auditd
+    state: present
+  when: security_auditd_enabled
+
+- name: Start and enable auditd
+  service:
+    name: auditd
+    state: started
+    enabled: true
+  when: security_auditd_enabled

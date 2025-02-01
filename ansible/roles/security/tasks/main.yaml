@@ -1,52 +1,17 @@
-- name: Ensure UFW is installed
-  apt:
-    name: ufw
-    state: present
-  when: security_firewall_enabled
+- name: Configure Firewall
+  import_tasks: firewall.yaml
 
-- name: Enable and configure UFW
-  ufw:
-    rule: allow
-    port: "{{ item }}"
-    proto: tcp
-  loop: "{{ security_allowed_ports }}"
-  when: security_firewall_enabled
+- name: Configure Fail2Ban
+  import_tasks: fail2ban.yaml
 
-- name: Enable UFW and deny incoming traffic by default
-  ufw:
-    state: enabled
-    policy: deny
-  when: security_firewall_enabled
+- name: Configure Auditd
+  import_tasks: auditd.yaml
 
-- name: Install fail2ban
-  apt:
-    name: fail2ban
-    state: present
-  when: security_fail2ban_enabled
+- name: Harden SSH
+  import_tasks: ssh.yaml
 
-- name: Copy fail2ban configuration
-  template:
-    src: fail2ban.local.j2
-    dest: /etc/fail2ban/jail.local
-    owner: root
-    group: root
-    mode: "0644"
-  notify: Restart fail2ban
-  when: security_fail2ban_enabled
+- name: Configure Password Policies
+  import_tasks: password_policies.yaml
 
-- name: Apply SSH configuration
-  template:
-    src: sshd_config.j2
-    dest: /etc/ssh/sshd_config
-    owner: root
-    group: root
-    mode: "0600"
-  notify: Restart SSH
-
-- name: Enable automatic security updates
-  copy:
-    dest: /etc/apt/apt.conf.d/50unattended-upgrades
-    content: |
-      APT::Periodic::Update-Package-Lists "1";
-      APT::Periodic::Unattended-Upgrade "1";
-  when: security_auto_updates_enabled
+- name: Enable Automatic Security Updates
+  import_tasks: updates.yaml

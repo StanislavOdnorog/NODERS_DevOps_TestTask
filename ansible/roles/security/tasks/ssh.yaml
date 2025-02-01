@@ -1,0 +1,9 @@
+---
+- name: Apply SSH configuration
+  template:
+    src: "{{ ssh_config_template }}"
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: "0600"
+  notify: Restart SSH

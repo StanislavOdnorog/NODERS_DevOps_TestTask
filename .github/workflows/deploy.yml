@@ -1,0 +1,44 @@
+# ---
+# name: Deploy Infrastructure
+#
+# on:
+#   push:
+#     branches:
+#       - main
+#   workflow_dispatch:
+#
+# jobs:
+#   deploy:
+#     name: Deploy Infrastructure, Apply Security Configurations, and Verify Deployment
+#     runs-on: ubuntu-latest
+#
+#     steps:
+#       - name: Check out the repository
+#         uses: actions/checkout@v4
+#
+#       - name: Set up Python 3 and Install Ansible
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: "3.x"
+#       - run: |
+#           pip install ansible
+#
+#       - name: Apply default security configurations
+#         run: |
+#           cd ansible
+#           ansible-playbook -i inventory/inventory.yaml site.yaml
+#         env:
+#           ANSIBLE_HOST_KEY_CHECKING: "False"
+#           ANSIBLE_FORCE_COLOR: "1"
+#
+#       - name: Apply monitoring configurations
+#         run: |
+#           cd ansible
+#           ansible-playbook -i inventory/inventory.yaml monitoring.yaml
+#         env:
+#           ANSIBLE_HOST_KEY_CHECKING: "False"
+#           ANSIBLE_FORCE_COLOR: "1"
+#
+#       - name: Verify Deployment
+#         run: |
+#           curl -f http://<server_ip> || exit 1

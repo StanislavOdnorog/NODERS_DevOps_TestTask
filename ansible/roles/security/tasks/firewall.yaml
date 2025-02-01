@@ -1,0 +1,24 @@
+---
+- name: Ensure UFW is installed
+  apt:
+    name: ufw
+    state: present
+  when: security_firewall_enabled
+
+- name: Enable and configure UFW
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop: "{{ security_allowed_ports }}"
+  when: security_firewall_enabled
+
+- name: Enable UFW logging for denied traffic
+  command: ufw logging on
+  when: security_firewall_enabled
+
+- name: Enable UFW and set default policy
+  ufw:
+    state: enabled
+    policy: "{{ ufw_default_policy }}"
+  when: security_firewall_enabled

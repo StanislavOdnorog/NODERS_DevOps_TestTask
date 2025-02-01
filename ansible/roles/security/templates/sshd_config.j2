@@ -1,5 +1,7 @@
 PermitRootLogin {% if disable_root_ssh %}no{% else %}yes{% endif %}
+
 PasswordAuthentication {% if disable_password_auth %}no{% else %}yes{% endif %}
+
 UsePAM yes
 Protocol 2
 X11Forwarding no

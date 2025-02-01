@@ -7,3 +7,8 @@
   service:
     name: fail2ban
     state: restarted
+
+- name: Restart pwquality
+  service:
+    name: pwquality
+    state: restarted

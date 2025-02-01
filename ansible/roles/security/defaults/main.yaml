@@ -1,7 +1,27 @@
 security_firewall_enabled: true
-security_allowed_ports: [22, 80]
 security_ssh_port: 22
+security_allowed_ports:
+  - "{{ security_ssh_port }}"
+  - 80
+  - 443
+disable_root_ssh: true
+disable_password_auth: true
+
 security_fail2ban_enabled: true
+security_lockout_on: true
+
+security_password_min_length_on: true
+security_password_min_length: 12
+
 security_auto_updates_enabled: true
-security_disable_root_ssh: true
-security_disable_password_auth: true
+security_auditd_enabled: true
+
+fail2ban_config_template: "fail2ban.local.j2"
+ssh_config_template: "sshd_config.j2"
+fail2ban_default_config:
+  maxretry: 5
+  bantime: 600
+  findtime: 600
+
+ufw_default_policy: "deny"
+security_update_config_path: "/etc/apt/apt.conf.d/50unattended-upgrades"

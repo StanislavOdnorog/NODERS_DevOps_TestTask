@@ -9,6 +9,7 @@
     password: "{{ user_passwords[item.name]  | default(users_default_password) | password_hash('sha512') }}"
     shell: "{{ item.shell | default(users_default_shell) }}"
     state: "{{ item.state | default(users_default_state) }}"
+    create_home: "{{ item.create_home | default(users_default_create_home) }}"
   loop: "{{ users }}"
 
 - name: Set ssh-key for Users

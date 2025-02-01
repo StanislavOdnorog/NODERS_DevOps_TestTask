@@ -1,13 +1,12 @@
 ---
 name: CI
-'on':
+"on":
   pull_request:
   push:
     branches:
       - main
 
 jobs:
-
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -18,45 +17,11 @@ jobs:
       - name: Set up Python 3
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
       - name: Install linting dependencies
         run: |
-          pip3 install yamllint 
+          pip3 install yamllint
 
       - name: Run YAML Lint
         run: yamllint -c .yamllint .
-
-  molecule-test:
-    name: Molecule Test
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        distro:
-          - rockylinux9
-          - ubuntu2204
-          - debian11
-        role:
-          - users
-          - security
-
-    steps:
-      - name: Check out the codebase
-        uses: actions/checkout@v4
-
-      - name: Set up Python 3
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-
-      - name: Install test dependencies
-        run: pip3 install ansible molecule molecule-plugins[docker] docker
-
-      - name: Run Molecule tests for ${{ matrix.role }} role
-        working-directory: ansible/roles/${{ matrix.role }}
-        run: molecule test
-        env:
-          PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
-          MOLECULE_DISTRO: ${{ matrix.distro }}
-

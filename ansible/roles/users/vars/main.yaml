@@ -11,7 +11,6 @@ users:
     groups: "sudo"
     shell: "/bin/sh"
     state: absent
-
 #  - name: "admin" - required
 #    ssh_key: "ssh-rsa AS213zaAf..." - optional
 #    groups: "[sudo/users]" - optional

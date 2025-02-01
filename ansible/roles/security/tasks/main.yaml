@@ -30,7 +30,7 @@
     dest: /etc/fail2ban/jail.local
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   notify: Restart fail2ban
   when: security_fail2ban_enabled
 
@@ -40,7 +40,7 @@
     dest: /etc/ssh/sshd_config
     owner: root
     group: root
-    mode: '0600'
+    mode: "0600"
   notify: Restart SSH
 
 - name: Enable automatic security updates
@@ -50,4 +50,3 @@
       APT::Periodic::Update-Package-Lists "1";
       APT::Periodic::Unattended-Upgrade "1";
   when: security_auto_updates_enabled
-

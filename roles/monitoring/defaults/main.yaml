@@ -1,0 +1,19 @@
+---
+monitoring_dir: "/opt/monitoring"
+monitoring_docker_compose_file: "{{ monitoring_dir }}/docker-compose.yaml"
+monitoring_env_file: "{{ monitoring_dir }}/.env"
+
+monitoring_prometheus_version: "{{ lookup('env', 'PROMETHEUS_VERSION') | default('latest') }}"
+monitoring_grafana_version: "{{ lookup('env', 'GRAFANA_VERSION') | default('latest') }}"
+monitoring_node_exporter_version: "{{ lookup('env', 'NODE_EXPORTER_VERSION') | default('latest') }}"
+monitoring_cadvisor_version: "{{ lookup('env', 'CADVISOR_VERSION') | default('latest') }}"
+
+monitoring_grafana_admin_user: "{{ lookup('env', 'GRAFANA_ADMIN_USER')}}"
+monitoring_grafana_admin_password: "{{ lookup('env', 'GRAFANA_ADMIN_PASSWORD')}}"
+
+monitoring_prometheus_dir: "{{ monitoring_dir }}/prometheus"
+monitoring_prometheus_config_file: "{{ monitoring_dir }}/prometheus/prometheus.yaml"
+
+monitoring_grafana_provisioning_dir: "{{ monitoring_dir }}/grafana/provisioning"
+monitoring_grafana_datasources_dir: "{{ monitoring_dir }}/grafana/datasources"
+monitoring_grafana_dashboards_dir: "{{ monitoring_dir }}/grafana/dashboards"

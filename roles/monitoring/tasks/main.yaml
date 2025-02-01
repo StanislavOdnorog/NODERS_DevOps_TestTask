@@ -1,0 +1,47 @@
+---
+- name: Ensure monitoring directory exists
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ monitoring_grafana_dashboards_dir }}"
+    - "{{ monitoring_grafana_provisioning_dir }}"
+    - "{{ monitoring_grafana_datasources_dir }}"
+    - "{{ monitoring_dir }}"
+    - "{{ monitoring_prometheus_dir }}"
+
+- name: Copy Docker Compose file
+  copy:
+    src: "files/docker-compose.yaml"
+    dest: "{{ monitoring_docker_compose_file }}"
+    mode: "0644"
+  notify: Restart Docker Compose
+
+- name: Copy .env file
+  template:
+    src: "templates/.env.j2"
+    dest: "{{ monitoring_env_file }}"
+    mode: "0644"
+  notify: Restart Docker Compose
+
+- name: Copy Prometheus configuration
+  copy:
+    src: "files/prometheus/prometheus.yaml"
+    dest: "{{ monitoring_prometheus_config_file }}"
+    mode: "0644"
+  notify: Restart Docker Compose
+
+- name: Copy Grafana dashboards
+  copy:
+    src: "files/grafana/dashboards/"
+    dest: "{{ monitoring_grafana_dashboards_dir }}"
+    mode: "0644"
+  notify: Restart Docker Compose
+
+- name: Copy Grafana provisioning files
+  copy:
+    src: "files/grafana/provisioning/"
+    dest: "{{ monitoring_grafana_provisioning_dir }}"
+    mode: "0644"
+  notify: Restart Docker Compose

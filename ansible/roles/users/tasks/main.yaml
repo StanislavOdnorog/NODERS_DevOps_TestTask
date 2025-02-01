@@ -1,3 +1,4 @@
+---
 - name: Set passwords for users
   set_fact:
     user_passwords: "{{ lookup('env', 'USER_PASSWORDS', default='{}') | from_json }}"

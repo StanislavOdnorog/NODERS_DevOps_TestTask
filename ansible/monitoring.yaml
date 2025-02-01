@@ -1,5 +1,5 @@
 ---
 - hosts: monitoring
-  become: yes
+  become: true
   roles:
     - nginx

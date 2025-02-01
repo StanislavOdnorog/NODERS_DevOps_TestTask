@@ -6,10 +6,6 @@ name: CI
     branches:
       - main
 
-defaults:
-  run:
-    working-directory: 'ansible'
-
 jobs:
 
   lint:
@@ -32,14 +28,17 @@ jobs:
         run: yamllint -c .yamllint .
 
   molecule-test:
-    name: Molecule Tests
+    name: Molecule Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
         distro:
           - rockylinux9
-          - ubuntu-latest
+          - ubuntu2204
           - debian11
+        role:
+          - users
+          - security
 
     steps:
       - name: Check out the codebase
@@ -53,9 +52,11 @@ jobs:
       - name: Install test dependencies
         run: pip3 install ansible molecule molecule-plugins[docker] docker
 
-      - name: Run Molecule tests
+      - name: Run Molecule tests for ${{ matrix.role }} role
+        working-directory: ansible/roles/${{ matrix.role }}
         run: molecule test
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
           MOLECULE_DISTRO: ${{ matrix.distro }}
+

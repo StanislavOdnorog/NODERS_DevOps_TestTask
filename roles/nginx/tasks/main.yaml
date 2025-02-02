@@ -8,6 +8,8 @@
   file:
     path: "{{ item }}"
     state: directory
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}"
     mode: "0755"
   loop:
     - "{{ nginx_conf_path }}"
@@ -18,8 +20,8 @@
   template:
     src: nginx.conf.j2
     dest: "{{ nginx_conf_file }}"
-    owner: root
-    group: root
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}"
     mode: "0644"
   notify: Reload Nginx
 
@@ -27,14 +29,16 @@
   file:
     path: "{{ nginx_conf_path }}"
     state: directory
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}"
     mode: "0755"
 
 - name: Deploy security configuration
   template:
     src: conf.d/security.conf.j2
     dest: "{{ nginx_security_conf }}"
-    owner: root
-    group: root
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}"
     mode: "0644"
   notify: Reload Nginx
 
@@ -42,8 +46,8 @@
   template:
     src: conf.d/common.conf.j2
     dest: "{{ nginx_common_conf }}"
-    owner: root
-    group: root
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}"
     mode: "0644"
   notify: Reload Nginx
 
@@ -51,8 +55,8 @@
   template:
     src: sites-available/reverse_proxy.conf.j2
     dest: "{{ nginx_sites_available }}/reverse_proxy"
-    owner: root
-    group: root
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}"
     mode: "0644"
   notify: Reload Nginx
 

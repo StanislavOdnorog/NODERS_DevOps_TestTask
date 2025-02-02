@@ -3,3 +3,4 @@
   command: docker compose up -d
   args:
     chdir: "{{ monitoring_dir }}"
+  become_user: "{{ docker_user }}"

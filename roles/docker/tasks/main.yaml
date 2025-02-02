@@ -7,7 +7,7 @@
       - curl
       - jq
     state: present
-    update_cache: yes
+    update_cache: true
 
 - name: Add Docker GPG apt Key
   apt_key:
@@ -32,7 +32,9 @@
   template:
     src: "daemon.j2"
     dest: /etc/docker/daemon.json
-    force: yes
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
+    force: true
   notify: Restart Docker
 
 - name: Patch systemd file docker.socket to stop with docker.service
@@ -41,3 +43,14 @@
     insertafter: "^Description=*"
     line: "PartOf=docker.service"
   notify: Reload Docker socket
+
+- name: Ensure docker user owns necessary directories
+  file:
+    path: "{{ item }}"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - /home/docker
+    - /var/lib/docker

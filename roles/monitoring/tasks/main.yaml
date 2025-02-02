@@ -3,6 +3,8 @@
   file:
     path: "{{ item }}"
     state: directory
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
     mode: "0755"
   loop:
     - "{{ monitoring_grafana_dashboards_dir }}"
@@ -15,6 +17,8 @@
   copy:
     src: "files/docker-compose.yaml"
     dest: "{{ monitoring_docker_compose_file }}"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
     mode: "0644"
   notify: Restart Docker Compose
 
@@ -22,13 +26,17 @@
   template:
     src: "templates/.env.j2"
     dest: "{{ monitoring_env_file }}"
-    mode: "0644"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
+    mode: "0600"
   notify: Restart Docker Compose
 
 - name: Copy Prometheus configuration
   copy:
     src: "files/prometheus/prometheus.yaml"
     dest: "{{ monitoring_prometheus_config_file }}"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
     mode: "0644"
   notify: Restart Docker Compose
 
@@ -36,6 +44,8 @@
   copy:
     src: "files/grafana/dashboards/"
     dest: "{{ monitoring_grafana_dashboards_dir }}"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
     mode: "0644"
   notify: Restart Docker Compose
 
@@ -43,5 +53,7 @@
   copy:
     src: "files/grafana/provisioning/"
     dest: "{{ monitoring_grafana_provisioning_dir }}"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
     mode: "0644"
   notify: Restart Docker Compose

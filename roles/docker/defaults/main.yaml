@@ -1,4 +1,5 @@
 ---
+docker_user: docker
 docker_log_size: 300M
 docker_log_files: 3
 docker_bip: 172.17.0.1/16

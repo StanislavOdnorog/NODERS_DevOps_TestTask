@@ -19,10 +19,13 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Install Ansible
+      - name: Install system dependencies
         run: |
-          sudo apt update
-          sudo apt install -y ansible
+          sudo apt-get update
+          sudo apt-get --assume-yes --no-install-recommends install python3-pip
+          python3 -m pip install --user -U ansible ansible-lint \
+            jmespath molecule-plugins[docker] passlib
+          python3 -m pip install --user 'requests==2.28.1'
 
       - name: Deploy site.yaml with Ansible
         run: |

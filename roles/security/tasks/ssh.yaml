@@ -1,7 +1,7 @@
 ---
 - name: Apply SSH configuration
   template:
-    src: "{{ ssh_config_template }}"
+    src: "{{ security_ssh_config_template }}"
     dest: /etc/ssh/sshd_config
     owner: root
     group: root

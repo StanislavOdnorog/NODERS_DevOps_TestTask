@@ -20,5 +20,5 @@
 - name: Enable UFW and set default policy
   ufw:
     state: enabled
-    policy: "{{ ufw_default_policy }}"
+    policy: "{{ security_ufw_default_policy }}"
   when: security_firewall_enabled

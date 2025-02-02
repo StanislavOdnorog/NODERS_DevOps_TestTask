@@ -1,6 +1,6 @@
-PermitRootLogin {% if disable_root_ssh %}no{% else %}yes{% endif %}
+PermitRootLogin {% if security_disable_root_ssh %}no{% else %}yes{% endif %}
 
-PasswordAuthentication {% if disable_password_auth %}no{% else %}yes{% endif %}
+PasswordAuthentication {% if security_disable_password_auth %}no{% else %}yes{% endif %}
 
 UsePAM yes
 Protocol 2

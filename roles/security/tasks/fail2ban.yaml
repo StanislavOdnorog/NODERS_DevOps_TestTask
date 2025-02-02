@@ -7,7 +7,7 @@
 
 - name: Copy Fail2Ban configuration
   template:
-    src: "{{ fail2ban_config_template }}"
+    src: "{{ security_fail2ban_config_template }}"
     dest: /etc/fail2ban/jail.local
     owner: root
     group: root

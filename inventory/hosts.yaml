@@ -1,11 +1,19 @@
 ---
 all:
   vars:
-    ansible_user: ubuntu
+    ansible_user: deploy
     ansible_ssh_private_key_file: ~/.ssh/id_rsa
 
   children:
     monitoring:
       hosts:
-        test-monitoring-1:
-          ansible_host: 188.32.160.250
+        ubuntu-20-04:
+          ansible_host: 84.201.142.50
+        ubuntu-22-04:
+          ansible_host: 51.250.28.242
+        ubuntu-24-04:
+          ansible_host: 84.201.160.235
+        debian-11:
+          ansible_host: 51.250.30.155
+        debian-12:
+          ansible_host: 89.169.164.32

@@ -1,6 +1,7 @@
 ---
 - name: Ensure UFW is installed
   apt:
+    update_cache: true
     name: ufw
     state: present
   when: security_firewall_enabled
